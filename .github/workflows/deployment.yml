@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feature-deployment
+  labels:
+    app: feature
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feature
+  template:
+    metadata:
+      labels:
+        app: feature
+    spec:
+      containers:
+      - name: feature
+        image: inventore/feature:latest
+        ports:
+        - containerPort: 8085
