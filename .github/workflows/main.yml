@@ -19,6 +19,7 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
+          ls -lt $GITHUB_WORKSPACE/build/libs/
           ls -ltr
           
 #      - name: SonarCloud Analysis
