@@ -34,8 +34,8 @@ jobs:
 
       - name: Copy JAR
         run: |
-          cp $GITHUB_WORKSPACE/build/libs/spring-feature-ms-PabloCarrasco-mensaje-0.0.1-SNAPSHOT.jar .
-          chmod 777 spring-feature-ms-PabloCarrasco-mensaje-0.0.1-SNAPSHOT.jar
+          cp $GITHUB_WORKSPACE/build/libs/feature-0.0.1-SNAPSHOT.jar .
+          chmod 777 feature-0.0.1-SNAPSHOT.jar
           ls -lt
 
       - name: Docker Build
