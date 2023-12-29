@@ -59,6 +59,10 @@ task checkCoverage {
     dependsOn test
     doLast {
         def coverageFile = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+        if (!coverageFile.exists()) {
+            throw new GradleException("JaCoCo report not found. Make sure the tests are being executed.")
+        }
+
         def xml = new XmlSlurper().parse(coverageFile)
 
         def coverage = xml.'counter'.find { it.@type == 'INSTRUCTION' }.@covered.toInteger()
