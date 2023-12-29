@@ -30,7 +30,7 @@ sonar {
 
 jacoco {
     toolVersion = "0.8.7" // Use the latest version
-    reportsDir = file("$buildDir/jacoco")
+    reportsDir = file("$buildDir/reports/jacoco/test/")
 }
 
 test {
@@ -47,6 +47,11 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['**/*Test*'])
         }))
+    }
+
+    // Add the following lines
+    doLast {
+        println "Jacoco report generated at: ${reports.xml.destination}"
     }
 }
 
