@@ -21,6 +21,33 @@ jobs:
           ./gradlew build
           ls -lt $GITHUB_WORKSPACE/build/libs/
           ls -ltr
+          
+      - name: Docker Login
+        uses: docker/login-action@v2.2.0
+        with:
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Copy JAR
+        run: |
+          cp $GITHUB_WORKSPACE/build/libs/testing-web-0.0.1-SNAPSHOT.jar .
+          chmod 777 testing-web-0.0.1-SNAPSHOT.jar
+          ls -lt
+
+      - name: Docker Build
+        run: |
+          docker build --tag inventore/feature .
+          docker images
+
+      - name: Docker Push
+        run: |
+          docker push inventore/feature
+
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - uses: actions/checkout@v3
 
       - name: Test
         run: |
@@ -46,27 +73,6 @@ jobs:
           wait-for-quality-gate: true
         with: 
           scanMetadataReportFile: build/sonar/report-task.txt
-          
-      - name: Docker Login
-        uses: docker/login-action@v2.2.0
-        with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Copy JAR
-        run: |
-          cp $GITHUB_WORKSPACE/build/libs/testing-web-0.0.1-SNAPSHOT.jar .
-          chmod 777 testing-web-0.0.1-SNAPSHOT.jar
-          ls -lt
-
-      - name: Docker Build
-        run: |
-          docker build --tag inventore/feature .
-          docker images
-
-      - name: Docker Push
-        run: |
-          docker push inventore/feature
 
   deploy:
       runs-on: self-hosted
@@ -81,7 +87,7 @@ jobs:
 
   postman:
     name: Postman
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy
     if: success()
     steps:
