@@ -27,16 +27,26 @@ jobs:
           chmod +x gradlew
           ./gradlew test
           
-#      - name: Check Coverage
- #       run: |
-  #        chmod +x gradlew
-   #       ./gradlew checkCoverage --info
+      - name: Jacoco
+        run: |
+          chmod +x gradlew
+          ./gradlew jacocoTestReport
           
       - name: SonarCloud Analysis
         run: |
           chmod +x gradlew 
           ./gradlew build sonar -Dsonar.token=${{ secrets.TOKEN_SONARCLOUD }}
 
+      - name: SonarQube Quality Gate Check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        env: 
+          SONAR_TOKEN: ${{ secrets.TOKEN_SONARCLOUD }}
+          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_QUALITYGATE: 'Sonar way2'
+          wait-for-quality-gate: true
+        with: 
+          scanMetadataReportFile: build/sonar/report-task.txt
+          
       - name: Docker Login
         uses: docker/login-action@v2.2.0
         with:
