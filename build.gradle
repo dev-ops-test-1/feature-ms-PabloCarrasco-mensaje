@@ -33,14 +33,24 @@ jacoco {
     reportsDir = file("$buildDir/reports/jacoco/test/")
 }
 
-test {
-    useJUnitPlatform()
-}
-
 jacocoTestReport {
     dependsOn test
         reports {
             html.enabled true
             xml.enabled true
         }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
