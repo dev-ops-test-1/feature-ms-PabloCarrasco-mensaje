@@ -79,6 +79,15 @@ jobs:
         run: |
           kubectl apply -f deployment.yml
 
+  postman:
+    name: Postman
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: sucess()
+    steps:
+    
+      - uses: actions/checkout@v3
+      
       - name: Install Newman
         run: npm install -g newman
 
@@ -92,12 +101,3 @@ jobs:
           name: result.html
           path: result.html
           if-no-files-found: error
-
-      - name: Generate Proof of Acceptance
-        run: echo "Acceptance tests passed!" > proof_of_acceptance.txt
-
-      - name: Upload Proof of Acceptance
-        uses: actions/upload-artifact@v2
-        with:
-          name: proof_of_acceptance
-          path: proof_of_acceptance.txt
