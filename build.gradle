@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.3'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-        id "org.sonarqube" version "4.2.1.3168"
-	id 'jacoco'
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "org.sonarqube" version "4.2.1.3168"
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -11,21 +11,21 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 sonar {
-  properties {
-    property "sonar.projectKey", "dev-ops-test-1_feature-ms-PabloCarrasco-mensaje"
-    property "sonar.organization", "dev-ops-test-1"
-    property "sonar.host.url", "https://sonarcloud.io/"
-    property "sonar.projectName", "feature-ms-PabloCarrasco-mensaje"
-  }
+    properties {
+        property "sonar.projectKey", "dev-ops-test-1_feature-ms-PabloCarrasco-mensaje"
+        property "sonar.organization", "dev-ops-test-1"
+        property "sonar.host.url", "https://sonarcloud.io/"
+        property "sonar.projectName", "feature-ms-PabloCarrasco-mensaje"
+    }
 }
 
 jacoco {
@@ -53,7 +53,7 @@ jacocoTestReport {
 task checkCoverage {
     dependsOn test
     doLast {
-        def coverageFile = file("$buildDir/jacoco/jacocoTestReport.xml")
+        def coverageFile = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
         def xml = new XmlSlurper().parse(coverageFile)
 
         def coverage = xml.'counter'.find { it.@type == 'INSTRUCTION' }.@covered.toInteger()
