@@ -27,15 +27,15 @@ jobs:
           chmod +x gradlew
           ./gradlew test
           
-      - name: Check Coverage
-        run: |
-          chmod +x gradlew
-          ./gradlew checkCoverage --info
+#      - name: Check Coverage
+ #       run: |
+  #        chmod +x gradlew
+   #       ./gradlew checkCoverage --info
           
-#      - name: SonarCloud Analysis
-#        run: |
-#          chmod +x gradlew 
-#          ./gradlew build sonar -Dsonar.token=${{ secrets.TOKEN_SONARCLOUD }}
+      - name: SonarCloud Analysis
+        run: |
+          chmod +x gradlew 
+          ./gradlew build sonar -Dsonar.token=${{ secrets.TOKEN_SONARCLOUD }}
 
       - name: Docker Login
         uses: docker/login-action@v2.2.0
