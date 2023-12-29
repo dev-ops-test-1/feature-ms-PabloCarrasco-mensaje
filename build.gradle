@@ -53,14 +53,13 @@ jacocoTestReport {
 task checkCoverage {
     dependsOn test
     doLast {
-        def coverage = file("$buildDir/jacoco/jacocoTestReport.xml")
-            .parseXml()
-            .report.counter.find { it.@type == 'INSTRUCTION' }
-            .@covered
+        def coverageFile = file("$buildDir/jacoco/jacocoTestReport.xml")
+        def xml = new XmlSlurper().parse(coverageFile)
 
-        if (coverage.toInteger() < 85) {
+        def coverage = xml.'counter'.find { it.@type == 'INSTRUCTION' }.@covered.toInteger()
+
+        if (coverage < 85) {
             throw new GradleException("Minimum test coverage not met. Got $coverage%, expected at least 85%.")
         }
     }
 }
-
