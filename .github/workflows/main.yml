@@ -27,6 +27,11 @@ jobs:
           chmod +x gradlew
           ./gradlew test
           
+      - name: Check Coverage
+        run: |
+          chmod +x gradlew
+          ./gradlew checkCoverage
+          
 #      - name: SonarCloud Analysis
 #        run: |
 #          chmod +x gradlew 
