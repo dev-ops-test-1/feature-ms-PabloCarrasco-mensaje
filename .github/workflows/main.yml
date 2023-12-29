@@ -78,3 +78,18 @@ jobs:
       - name: Deploy Minikube
         run: |
           kubectl apply -f deployment.yml
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman Tests
+        run: newman run DevOpsTest1.postman_collection.json
+
+      - name: Generate Proof of Acceptance
+        run: echo "Acceptance tests passed!" > proof_of_acceptance.txt
+
+      - name: Upload Proof of Acceptance
+        uses: actions/upload-artifact@v2
+        with:
+          name: proof_of_acceptance
+          path: proof_of_acceptance.txt
