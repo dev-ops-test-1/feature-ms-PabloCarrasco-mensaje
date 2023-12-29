@@ -30,7 +30,7 @@ jobs:
       - name: Check Coverage
         run: |
           chmod +x gradlew
-          ./gradlew checkCoverage
+          ./gradlew checkCoverage --info
           
 #      - name: SonarCloud Analysis
 #        run: |
