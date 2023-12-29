@@ -83,7 +83,7 @@ jobs:
     name: Postman
     runs-on: ubuntu-latest
     needs: deploy
-    if: sucess()
+    if: success()
     steps:
     
       - uses: actions/checkout@v3
