@@ -29,7 +29,7 @@ sonar {
 }
 
 jacoco {
-    toolVersion = "0.8.7" // Use the latest version
+    toolVersion = "0.8.9" // Use the latest version
     reportsDir = file("$buildDir/reports/jacoco/test/")
 }
 
