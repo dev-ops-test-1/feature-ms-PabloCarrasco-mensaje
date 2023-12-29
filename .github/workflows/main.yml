@@ -85,6 +85,14 @@ jobs:
       - name: Run Postman Tests
         run: newman run DevOpsTest1.postman_collection.json
 
+      - name: Capture Postman
+        if: success()
+        uses: actions/upload-artifact@v3
+        with: 
+          name: result.html
+          path: result.html
+          if-no-files-found: error
+
       - name: Generate Proof of Acceptance
         run: echo "Acceptance tests passed!" > proof_of_acceptance.txt
 
