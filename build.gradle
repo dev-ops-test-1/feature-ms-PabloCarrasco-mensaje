@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
         id "org.sonarqube" version "4.2.1.3168"
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -27,13 +28,39 @@ sonar {
   }
 }
 
+jacoco {
+    toolVersion = "0.8.7" // Use the latest version
+    reportsDir = file("$buildDir/jacoco")
+}
+
 test {
-    useJUnitPlatform()
-    testLogging {
-        events 'passed', 'skipped', 'failed'
-    }
+    finalizedBy jacocoTestReport // attach the report generation to the test task
+}
+
+jacocoTestReport {
     reports {
-        junitXml.enabled = true
-        html.enabled = true
+        xml.enabled true
+        html.enabled true
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/*Test*'])
+        }))
     }
 }
+
+task checkCoverage {
+    dependsOn test
+    doLast {
+        def coverage = file("$buildDir/jacoco/jacocoTestReport.xml")
+            .parseXml()
+            .report.counter.find { it.@type == 'INSTRUCTION' }
+            .@covered
+
+        if (coverage.toInteger() < 85) {
+            throw new GradleException("Minimum test coverage not met. Got $coverage%, expected at least 85%.")
+        }
+    }
+}
+
