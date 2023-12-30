@@ -108,3 +108,29 @@ jobs:
           name: newman-output.txt
           path: newman-output.txt
           if-no-files-found: error
+
+  jmeter:
+   name: JMeter execution
+   runs-on: self-hosted
+   needs: postman
+   if: sucess()
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+       
+     - name: Download JMeter
+       run: |
+         curl - LJO https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
+         tar -xvzf apache-jmeter-5.6.2.tgz
+         
+     - name: Run JMeter Tests
+       run: apache-jmeter-5.6.2\bin\jmeter -n -t devops.jmx > jmeter-output.txt
+
+     - name: Capture JMeter
+       if: success()
+       uses: actions/upload-artifact@v3
+       with: 
+         name: jmeter-output.txt
+         path: jmeter-output.txt
+         if-no-files-found: error
+    
