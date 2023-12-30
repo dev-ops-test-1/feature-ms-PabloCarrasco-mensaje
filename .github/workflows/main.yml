@@ -122,7 +122,7 @@ jobs:
        
      - name: Download JMeter
        run: |
-         curl -O https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz
+         Invoke-WebRequest -Uri "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.2.tgz" -OutFile ".\apache-jmeter-5.6.2.tgz"
          tar -xvzf apache-jmeter-5.6.2.tgz
          
      - name: Run JMeter Tests
