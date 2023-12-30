@@ -113,7 +113,7 @@ jobs:
    name: JMeter execution
    runs-on: self-hosted
    needs: postman
-   if: sucess()
+   if: success()
    steps:
      - name: Checkout
        uses: actions/checkout@v3
